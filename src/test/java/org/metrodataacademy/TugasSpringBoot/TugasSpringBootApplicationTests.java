@@ -1,10 +1,10 @@
-package org.metrodataacademy.Tugas1SpringBoot;
+package org.metrodataacademy.TugasSpringBoot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Tugas1SpringBootApplicationTests {
+class TugasSpringBootApplicationTests {
 
 	@Test
 	void contextLoads() {
