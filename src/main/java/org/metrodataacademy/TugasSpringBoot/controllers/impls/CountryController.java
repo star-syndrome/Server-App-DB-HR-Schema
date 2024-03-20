@@ -1,9 +1,10 @@
-package org.metrodataacademy.TugasSpringBoot.controllers;
+package org.metrodataacademy.TugasSpringBoot.controllers.impls;
 
+import org.metrodataacademy.TugasSpringBoot.controllers.GenericController;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.CreateCountryRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.UpdateCountryRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.responses.ResponseData;
-import org.metrodataacademy.TugasSpringBoot.services.CountryService;
+import org.metrodataacademy.TugasSpringBoot.services.impls.CountryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,26 +14,28 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/country")
-public class CountryController {
+public class CountryController implements GenericController<Object, Integer> {
 
     @Autowired
-    private CountryService countryService;
+    private CountryServiceImpl countryService;
 
+    @Override
     @GetMapping(
             path = "/getAll",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> getAllCountries() {
-        return ResponseData.statusResponse(countryService.getAllCountries(),
+    public ResponseEntity<Object> getAll() {
+        return ResponseData.statusResponse(countryService.getAll(),
                 HttpStatus.OK, "Successfully getting all countries!");
     }
 
+    @Override
     @GetMapping(
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> getCountryByID(@PathVariable Integer id) {
-        return ResponseData.statusResponse(countryService.getCountryById(id),
+    public ResponseEntity<Object> getById(@PathVariable Integer id) {
+        return ResponseData.statusResponse(countryService.getById(id),
                 HttpStatus.OK, "Successfully getting data country with id " + id + "!");
     }
 
@@ -57,12 +60,13 @@ public class CountryController {
                 HttpStatus.OK, "Successfully updated a country!");
     }
 
+    @Override
     @DeleteMapping(
-            path = "/delete/{code}",
+            path = "/delete/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> deleteCountry(@PathVariable String code) {
-        countryService.deleteCountry(code);
-        return ResponseData.statusResponse(null, HttpStatus.OK, "Successfully deleted a region!");
+    public ResponseEntity<Object> delete(@PathVariable Integer id) {
+        countryService.delete(id);
+        return ResponseData.statusResponse(null, HttpStatus.OK, "Successfully deleted a country!");
     }
 }

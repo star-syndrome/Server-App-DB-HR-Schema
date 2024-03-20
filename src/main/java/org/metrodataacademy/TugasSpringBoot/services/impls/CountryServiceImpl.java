@@ -5,10 +5,9 @@ import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.CreateCountryRe
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.UpdateCountryRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.responses.CountryResponse;
 import org.metrodataacademy.TugasSpringBoot.models.entities.Country;
-import org.metrodataacademy.TugasSpringBoot.models.entities.Region;
 import org.metrodataacademy.TugasSpringBoot.repositories.CountryRepository;
-import org.metrodataacademy.TugasSpringBoot.repositories.RegionRepository;
-import org.metrodataacademy.TugasSpringBoot.services.CountryService;
+import org.metrodataacademy.TugasSpringBoot.services.GenericService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,18 +15,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @Slf4j
-public class CountryServiceImpl implements CountryService {
+public class CountryServiceImpl implements GenericService<Country, Integer> {
 
     @Autowired
     private CountryRepository countryRepository;
 
     @Autowired
-    private RegionRepository regionRepository;
+    private RegionServiceImpl regionService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     private CountryResponse toCountryResponse(Country country) {
         return CountryResponse.builder()
@@ -35,55 +36,43 @@ public class CountryServiceImpl implements CountryService {
                 .code(country.getCode())
                 .name(country.getName())
                 .regionId(country.getRegion().getId())
+                .regionName(country.getRegion().getName())
                 .build();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<CountryResponse> getAllCountries() {
+    public List<Country> getAll() {
         log.info("Successfully getting all countries!");
-        return countryRepository.findAll().stream()
-                .map(this::toCountryResponse)
-                .collect(Collectors.toList());
+        return countryRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public CountryResponse getCountryById(Integer id) {
+    public Country getById(Integer id) {
         log.info("Getting country data from country id {}", id);
-        Country country = countryRepository.findById(id)
+        return countryRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country Not found!"));
-
-        return toCountryResponse(country);
     }
 
-    @Override
-    public CountryResponse createCountry(CreateCountryRequest request) {
+    public Country createCountry(CreateCountryRequest request) {
         try {
             log.info("Trying to add a new region");
             if (countryRepository.existsByCode(request.getCode())) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Country code already exists!");
             }
 
-            Region region = regionRepository.findById(request.getRegionId())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Region not found!"));
+            Country country = modelMapper.map(request, Country.class);
+            country.setRegion(regionService.getById(request.getRegionId()));
 
-            Country country = Country.builder()
-                    .code(request.getCode())
-                    .name(request.getName())
-                    .region(region)
-                    .build();
-            countryRepository.save(country);
             log.info("Adding new country was successful, new country: {}", country.getName());
-
-            return toCountryResponse(country);
+            return countryRepository.save(country);
         } catch (Exception e) {
             log.error("Error: " + e.getMessage());
             throw e;
         }
     }
 
-    @Override
     public CountryResponse updateCountry(String code, UpdateCountryRequest request) {
         try {
             log.info("Trying to update country data with code: {}", code);
@@ -103,11 +92,10 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public void deleteCountry(String code) {
+    public void delete(Integer id) {
         try {
-            log.info("Trying to delete region with code: {}", code);
-            Country country = countryRepository.findByCode(code)
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found!"));
+            log.info("Trying to delete country with id: {}", id);
+            Country country = getById(id);
 
             countryRepository.delete(country);
             log.info("Deleting country was successful!");

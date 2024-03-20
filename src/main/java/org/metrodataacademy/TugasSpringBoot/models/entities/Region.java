@@ -1,5 +1,6 @@
 package org.metrodataacademy.TugasSpringBoot.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,5 +25,6 @@ public class Region {
     private String name;
 
     @OneToMany(mappedBy = "region")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     List<Country> countries;
 }

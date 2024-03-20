@@ -1,5 +1,6 @@
-package org.metrodataacademy.TugasSpringBoot.controllers;
+package org.metrodataacademy.TugasSpringBoot.controllers.impls;
 
+import org.metrodataacademy.TugasSpringBoot.controllers.GenericController;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.CreateRegionRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.UpdateRegionRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.responses.ResponseData;
@@ -13,26 +14,28 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/region")
-public class RegionController {
+public class RegionController implements GenericController<Object, Integer> {
 
     @Autowired
     private RegionServiceImpl regionService;
 
+    @Override
     @GetMapping(
             path = "/getAll",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> getAllRegion() {
-        return ResponseData.statusResponse(regionService.getAllRegions(),
+    public ResponseEntity<Object> getAll() {
+        return ResponseData.statusResponse(regionService.getAll(),
                 HttpStatus.OK, "Successfully getting all regions!");
     }
 
+    @Override
     @GetMapping(
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> getRegionByID(@PathVariable Integer id) {
-        return ResponseData.statusResponse(regionService.getRegionByID(id),
+    public ResponseEntity<Object> getById(@PathVariable Integer id) {
+        return ResponseData.statusResponse(regionService.getById(id),
                 HttpStatus.OK, "Successfully getting data region with id " + id + "!");
     }
 
@@ -57,12 +60,13 @@ public class RegionController {
                 HttpStatus.OK, "Successfully updated a region!");
     }
 
+    @Override
     @DeleteMapping(
             path = "/delete/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> deleteRegion(@PathVariable Integer id) {
-        regionService.deleteRegion(id);
+    public ResponseEntity<Object> delete(@PathVariable Integer id) {
+        regionService.delete(id);
         return ResponseData.statusResponse(null, HttpStatus.OK, "Successfully deleted a region!");
     }
 }

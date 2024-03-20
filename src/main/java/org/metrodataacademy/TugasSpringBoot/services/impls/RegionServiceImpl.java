@@ -6,7 +6,7 @@ import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.UpdateRegionReq
 import org.metrodataacademy.TugasSpringBoot.models.dtos.responses.RegionResponse;
 import org.metrodataacademy.TugasSpringBoot.models.entities.Region;
 import org.metrodataacademy.TugasSpringBoot.repositories.RegionRepository;
-import org.metrodataacademy.TugasSpringBoot.services.RegionService;
+import org.metrodataacademy.TugasSpringBoot.services.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,12 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @Slf4j
-public class RegionServiceImpl implements RegionService {
+public class RegionServiceImpl implements GenericService<Region, Integer> {
 
     @Autowired
     private RegionRepository regionRepository;
@@ -33,24 +32,19 @@ public class RegionServiceImpl implements RegionService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<RegionResponse> getAllRegions() {
+    public List<Region> getAll() {
         log.info("Successfully getting all regions!");
-        return regionRepository.findAll().stream()
-                .map(this::toRegionResponse)
-                .collect(Collectors.toList());
+        return regionRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public RegionResponse getRegionByID(Integer id) {
+    public Region getById(Integer id) {
         log.info("Getting region data from region id {}", id);
-        Region region = regionRepository.findById(id)
+        return regionRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Region not found!"));
-
-        return toRegionResponse(region);
     }
 
-    @Override
     public RegionResponse createRegion(CreateRegionRequest request) {
         try {
             log.info("Trying to add a new region");
@@ -72,7 +66,6 @@ public class RegionServiceImpl implements RegionService {
         }
     }
 
-    @Override
     public RegionResponse updateRegion(Integer id, UpdateRegionRequest request) {
         try {
             log.info("Trying to update a region");
@@ -91,7 +84,7 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public void deleteRegion(Integer id) {
+    public void delete(Integer id) {
         try {
             log.info("Trying to delete a region");
             Region region = regionRepository.findById(id)
