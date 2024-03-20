@@ -90,8 +90,8 @@ public class CountryServiceImpl implements CountryService {
             Country country = countryRepository.findByCode(code)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found!"));
 
-            country.setCode(request.getCode() == null ? country.getCode() : request.getCode());
-            country.setName(request.getName() == null ? country.getName() : request.getName());
+            country.setCode(request.getCode());
+            country.setName(request.getName());
             countryRepository.save(country);
             log.info("Updating country was successful!");
 

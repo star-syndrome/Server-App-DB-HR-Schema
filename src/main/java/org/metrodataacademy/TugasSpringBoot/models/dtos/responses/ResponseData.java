@@ -11,7 +11,6 @@ import java.util.Map;
 @Data
 @Builder
 public class ResponseData {
-
     public static ResponseEntity<Object> statusResponse(Object data, HttpStatus code, String message) {
         Map<String, Object> bodyResponse = new HashMap<>();
         if (data != null) {

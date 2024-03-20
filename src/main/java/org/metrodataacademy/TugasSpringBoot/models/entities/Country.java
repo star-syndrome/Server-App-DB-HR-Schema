@@ -1,6 +1,5 @@
 package org.metrodataacademy.TugasSpringBoot.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +25,7 @@ public class Country {
     @Column(nullable = false, length = 50)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "region_id", referencedColumnName = "id", nullable = false)
     private Region region;
 }

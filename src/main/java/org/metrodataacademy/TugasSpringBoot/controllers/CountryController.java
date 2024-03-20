@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @RestController
 @RequestMapping(path = "/country")
 public class CountryController {
@@ -43,7 +41,7 @@ public class CountryController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> createRegion(@Valid @RequestBody CreateCountryRequest request) {
+    public ResponseEntity<Object> createRegion(@Validated @RequestBody CreateCountryRequest request) {
         return ResponseData.statusResponse(countryService.createCountry(request),
                 HttpStatus.OK, "Successfully created a new country!");
     }
