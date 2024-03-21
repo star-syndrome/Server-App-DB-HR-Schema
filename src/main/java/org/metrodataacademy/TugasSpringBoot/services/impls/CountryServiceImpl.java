@@ -53,6 +53,7 @@ public class CountryServiceImpl implements
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CountryResponse> search(String name) {
         log.info("Successfully get countries data by method searching!");
         return countryRepository.searchByName(name).stream()

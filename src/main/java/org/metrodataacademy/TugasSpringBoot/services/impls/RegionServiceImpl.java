@@ -48,6 +48,7 @@ public class RegionServiceImpl implements
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<RegionResponse> search(String name) {
         log.info("Successfully get regions data by method searching!");
         return regionRepository.searchRegionByName(name).stream()
