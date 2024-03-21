@@ -26,6 +26,10 @@ public class Country {
     private String name;
 
     @ManyToOne()
-    @JoinColumn(name = "region_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(
+            name = "region_id",
+            referencedColumnName = "id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_country"))
     private Region region;
 }
