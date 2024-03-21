@@ -95,8 +95,8 @@ public class CountryServiceImpl implements
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Country code already exists!");
             }
 
-            country.setCode(request.getCode() == null ? country.getCode() : request.getCode());
-            country.setName(request.getName() == null ? country.getName() : request.getName());
+            country.setCode(request.getCode() == null || request.getCode().isEmpty() ? country.getCode() : request.getCode());
+            country.setName(request.getName() == null || request.getName().isEmpty() ? country.getName() : request.getName());
             countryRepository.save(country);
             log.info("Updating country " + request.getName() + " was successful!");
 
