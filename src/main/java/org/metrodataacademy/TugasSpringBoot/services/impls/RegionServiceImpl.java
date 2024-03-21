@@ -85,6 +85,10 @@ public class RegionServiceImpl implements
             Region region = regionRepository.findById(id)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Region not found!"));
 
+            if (regionRepository.existsByName(request.getName())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region name already exists!");
+            }
+
             region.setName(request.getName());
             regionRepository.save(region);
             log.info("Updating region "+ request.getName() + " was successful!");

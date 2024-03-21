@@ -91,8 +91,12 @@ public class CountryServiceImpl implements
             Country country = countryRepository.findById(id)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found!"));
 
-            country.setCode(request.getCode());
-            country.setName(request.getName());
+            if (countryRepository.existsByCode(request.getCode())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Country code already exists!");
+            }
+
+            country.setCode(request.getCode() == null ? country.getCode() : request.getCode());
+            country.setName(request.getName() == null ? country.getName() : request.getName());
             countryRepository.save(country);
             log.info("Updating country " + request.getName() + " was successful!");
 
