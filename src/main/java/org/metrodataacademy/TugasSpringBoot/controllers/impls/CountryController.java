@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/country")
 public class CountryController implements
-        GenericController<Object, Integer, CreateCountryRequest, UpdateCountryRequest> {
+        GenericController<Object, Integer, String, CreateCountryRequest, UpdateCountryRequest> {
 
     @Autowired
     private CountryServiceImpl countryService;
@@ -38,6 +38,16 @@ public class CountryController implements
     public ResponseEntity<Object> getById(@PathVariable Integer id) {
         return ResponseData.statusResponse(countryService.getById(id),
                 HttpStatus.OK, "Successfully getting data country with id " + id + "!");
+    }
+
+    @Override
+    @GetMapping(
+            path = "/search",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Object> search(@RequestParam String name) {
+        return ResponseData.statusResponse(countryService.search(name),
+                HttpStatus.OK, "Successfully get data countries by method searching!");
     }
 
     @Override

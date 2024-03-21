@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/region")
 public class RegionController implements
-        GenericController<Object, Integer, CreateRegionRequest, UpdateRegionRequest> {
+        GenericController<Object, Integer, String, CreateRegionRequest, UpdateRegionRequest> {
 
     @Autowired
     private RegionServiceImpl regionService;
@@ -38,6 +38,16 @@ public class RegionController implements
     public ResponseEntity<Object> getById(@PathVariable Integer id) {
         return ResponseData.statusResponse(regionService.getById(id),
                 HttpStatus.OK, "Successfully getting data region with id " + id + "!");
+    }
+
+    @Override
+    @GetMapping(
+            path = "/search",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Object> search(@RequestParam String name) {
+        return ResponseData.statusResponse(regionService.search(name),
+                HttpStatus.OK, "Successfully get data regions by method searching!");
     }
 
     @Override

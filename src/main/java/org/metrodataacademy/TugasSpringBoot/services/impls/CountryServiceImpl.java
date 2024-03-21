@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Transactional
 @Slf4j
 public class CountryServiceImpl implements
-        GenericService<CountryResponse, Integer, CreateCountryRequest, UpdateCountryRequest> {
+        GenericService<CountryResponse, Integer, String, CreateCountryRequest, UpdateCountryRequest> {
 
     @Autowired
     private CountryRepository countryRepository;
@@ -50,6 +50,14 @@ public class CountryServiceImpl implements
         return countryRepository.findById(id)
                 .map(this::toCountryResponse)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found!"));
+    }
+
+    @Override
+    public List<CountryResponse> search(String name) {
+        log.info("Successfully get countries data by method searching!");
+        return countryRepository.searchByName(name).stream()
+                .map(this::toCountryResponse)
+                .collect(Collectors.toList());
     }
 
     @Override

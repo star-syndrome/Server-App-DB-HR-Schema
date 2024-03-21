@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Tugas Spring Boot
+    name: Spring Boot Task
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/metro_data
@@ -15,3 +15,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+module-name: Region and Country
+api-version: 1.0.0

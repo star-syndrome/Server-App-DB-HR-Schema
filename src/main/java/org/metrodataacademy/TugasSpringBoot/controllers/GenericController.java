@@ -2,9 +2,12 @@ package org.metrodataacademy.TugasSpringBoot.controllers;
 
 import org.springframework.http.ResponseEntity;
 
-public interface GenericController<T, ID, REQ1, REQ2> {
+
+public interface GenericController<T, ID, NAME, REQ1, REQ2> {
 
     ResponseEntity<T> getAll();
+
+    ResponseEntity<T> search(NAME name);
 
     ResponseEntity<T> create(REQ1 req);
 

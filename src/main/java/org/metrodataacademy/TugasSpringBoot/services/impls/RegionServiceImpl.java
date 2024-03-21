@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Transactional
 @Slf4j
 public class RegionServiceImpl implements
-        GenericService<RegionResponse, Integer, CreateRegionRequest, UpdateRegionRequest> {
+        GenericService<RegionResponse, Integer, String, CreateRegionRequest, UpdateRegionRequest> {
 
     @Autowired
     private RegionRepository regionRepository;
@@ -45,6 +45,14 @@ public class RegionServiceImpl implements
         return regionRepository.findById(id)
                 .map(region -> modelMapper.map(region, RegionResponse.class))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Region not found!"));
+    }
+
+    @Override
+    public List<RegionResponse> search(String name) {
+        log.info("Successfully get regions data by method searching!");
+        return regionRepository.searchRegionByName(name).stream()
+                .map(region -> modelMapper.map(region, RegionResponse.class))
+                .collect(Collectors.toList());
     }
 
     @Override
