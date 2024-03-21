@@ -2,9 +2,13 @@ package org.metrodataacademy.TugasSpringBoot.controllers;
 
 import org.springframework.http.ResponseEntity;
 
-public interface GenericController<T, ID> {
+public interface GenericController<T, ID, REQ1, REQ2> {
 
     ResponseEntity<T> getAll();
+
+    ResponseEntity<T> create(REQ1 req);
+
+    ResponseEntity<T> update(ID id, REQ2 req);
 
     ResponseEntity<T> getById(ID id);
 

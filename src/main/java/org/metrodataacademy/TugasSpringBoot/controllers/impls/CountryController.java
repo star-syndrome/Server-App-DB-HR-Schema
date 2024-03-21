@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/country")
-public class CountryController implements GenericController<Object, Integer> {
+public class CountryController implements
+        GenericController<Object, Integer, CreateCountryRequest, UpdateCountryRequest> {
 
     @Autowired
     private CountryServiceImpl countryService;
@@ -39,24 +40,26 @@ public class CountryController implements GenericController<Object, Integer> {
                 HttpStatus.OK, "Successfully getting data country with id " + id + "!");
     }
 
+    @Override
     @PostMapping(
             path = "/create",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> createRegion(@Validated @RequestBody CreateCountryRequest request) {
-        return ResponseData.statusResponse(countryService.createCountry(request),
+    public ResponseEntity<Object> create(@Validated @RequestBody CreateCountryRequest request) {
+        return ResponseData.statusResponse(countryService.create(request),
                 HttpStatus.OK, "Successfully created a new country!");
     }
 
+    @Override
     @PutMapping(
-            path = "/update/{code}",
+            path = "/update/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> updateCountry(@PathVariable String code,
-                                                @Validated @RequestBody UpdateCountryRequest request) {
-        return ResponseData.statusResponse(countryService.updateCountry(code, request),
+    public ResponseEntity<Object> update(@PathVariable Integer id,
+                                         @Validated @RequestBody UpdateCountryRequest request) {
+        return ResponseData.statusResponse(countryService.update(id, request),
                 HttpStatus.OK, "Successfully updated a country!");
     }
 

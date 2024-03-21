@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/region")
-public class RegionController implements GenericController<Object, Integer> {
+public class RegionController implements
+        GenericController<Object, Integer, CreateRegionRequest, UpdateRegionRequest> {
 
     @Autowired
     private RegionServiceImpl regionService;
@@ -39,24 +40,26 @@ public class RegionController implements GenericController<Object, Integer> {
                 HttpStatus.OK, "Successfully getting data region with id " + id + "!");
     }
 
+    @Override
     @PostMapping(
             path = "/create",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> createRegion(@Validated @RequestBody CreateRegionRequest request) {
-        return ResponseData.statusResponse(regionService.createRegion(request),
+    public ResponseEntity<Object> create(@Validated @RequestBody CreateRegionRequest request) {
+        return ResponseData.statusResponse(regionService.create(request),
                 HttpStatus.OK, "Successfully created a new region!");
     }
 
+    @Override
     @PutMapping(
             path = "/update/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> updateRegion(@PathVariable Integer id,
-                                               @Validated @RequestBody UpdateRegionRequest request) {
-        return ResponseData.statusResponse(regionService.updateRegion(id, request),
+    public ResponseEntity<Object> update(@PathVariable Integer id,
+                                         @Validated @RequestBody UpdateRegionRequest request) {
+        return ResponseData.statusResponse(regionService.update(id, request),
                 HttpStatus.OK, "Successfully updated a region!");
     }
 
