@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Java Mail Sender</title>
+</head>
+    <body style="background-image: radial-gradient(circle, rgba(168,230,236,1) 0%, rgba(214,233,148,1) 100%);
+        border-style: solid; font-family: Inconsolata,sans-serif">
+        <header>
+            <picture>
+                <img src="https://seeklogo.com/images/U/universitas-indraprasta-pgri-logo-233C8D8574-seeklogo.com.png"
+                     alt="Universitas Indraprasta PGRI;"
+                     style="width: 85px; height: 85px; float: left; padding-left: 20px">
+            </picture>
+                <h1 style="
+                    color: #2a59cc;
+                    text-decoration-line: underline;
+                    text-decoration-color: #0b5085;
+                    text-decoration-thickness: 5px;
+                    text-decoration-style: solid;
+                    text-shadow: 2px 2px 2px #0e0d0d;
+                    text-align: center;
+                    font-size: 25px;"
+                ><b>DAFTAR PROGRAM STUDI UNIVERSITAS INDRAPRASTA PGRI</b></h1>
+
+                <p id="address"
+                    style="color: #0c0b0b;
+                    text-align: center;
+                    font-size: 20px;"
+                >Jl. Raya Tengah No.80, Pasar Rebo, Jakarta Timur</p>
+            <hr style="font-weight: bold; border: none; height: 4px; background-color: black">
+        </header>
+            <div class="identity">
+                <p style="text-decoration-style: solid;
+                   color: #2a59cc;
+                   text-decoration-color: #0b5085;
+                   text-decoration-thickness: 5px;
+                   text-shadow: 2px 2px 2px #000000;
+                   text-align: center;
+                   font-size: 20px;
+                   padding-left: 50px;
+                   text-decoration-line: underline;"
+                ><b>IDENTITAS MAHASISWA</b></p>
+            </div>
+
+            <div class="user"
+                 style="text-align: left;
+                 font-size: 17px;
+                 padding: 25px 50px 75px;
+                 color: #076e6e;
+                 text-decoration-thickness: 5px;
+                 text-shadow: 2px 2px 2px #000000;">
+                    <p><b>NPM: </b><span style="color: #2a59cc" th:text="${npm}"></span></p>
+                    <p><b>Nama: </b><span style="color: #2a59cc" th:text="${nama}"></span></p>
+                    <p><b>Kelas: </b><span style="color: #2a59cc" th:text="${kelas}"></span></p>
+                    <p><b>Semester: </b><span style="color: #2a59cc" th:text="${semester}"></span></p>
+                    <p><b>Program Studi: </b><span style="color: #2a59cc" th:text="${prodi}"></span></p>
+            </div>
+        <table class="prodi" align="center"
+               style="background-image: radial-gradient(circle, rgba(168,189,236,1) 0%, rgba(148,233,173,1) 100%);;
+               padding: 16px;
+               width: auto;
+               height: auto;
+               font-size: 20px;
+               color: #395d20;"
+               border="1px solid #0d0c0c">
+            <thead>
+                <tr>
+                    <th>FTIK</th>
+                    <th>FMIPA</th>
+                    <th>FIPPS</th>
+                    <th>FBS</th>
+                </tr>
+            </thead>
+                <tbody>
+                <tr>
+                    <td>Teknik Informatika</td>
+                    <td>Pendidikan Matematika</td>
+                    <td>Bimbingan dan Konseling</td>
+                    <td>Pendidikan Bahasa dan Sastra Indonesia</td>
+                </tr>
+                <tr>
+                    <td>Teknik Industri</td>
+                    <td>Pendidikan Biologi</td>
+                    <td>Pendidikan Ekonomi</td>
+                    <td>Pendidikan Bahasa Inggris</td>
+                </tr>
+                <tr>
+                    <td>Arsitektur</td>
+                    <td>Pendidikan Fisika</td>
+                    <td>Pendidikan Sejarah</td>
+                    <td>Desain Komunikasi Visual</td>
+                </tr>
+                <tr>
+                    <td>Sistem Informasi</td>
+                    <td>-</td>
+                    <td>Bisnis Digital</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Manajemen Ritel</td>
+                    <td>-</td>
+                </tr>
+                </tbody>
+        </table>
+        <footer>
+            <p align="center"><a href="https://unindra.ac.id/">Website Unindra</a></p>
+        </footer>
+    </body>
+</html>
