@@ -89,6 +89,7 @@ public class EmailServiceImpl implements EmailService {
             thymeleafContext.setVariable("kelas", emailRequest.getKelas());
             thymeleafContext.setVariable("semester", emailRequest.getSemester());
             thymeleafContext.setVariable("prodi", emailRequest.getProdi());
+            thymeleafContext.setVariable("recipient", emailRequest.getRecipient());
             String htmlBody = templateEngine.process("email.html", thymeleafContext);
 
             mimeMessageHelper.setText(htmlBody, true);
