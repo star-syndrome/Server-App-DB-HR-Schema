@@ -6,28 +6,34 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table()
+@Table(uniqueConstraints = @UniqueConstraint(name = "username_unique", columnNames = "username"))
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, length = 20)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String password;
 
-    @OneToOne()
-    @MapsId
-    @JoinColumn(name = "id", foreignKey = @ForeignKey(name = "fk_user1"))
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "employee_id",
+            referencedColumnName = "id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_user1")
+    )
     private Employee employee;
 
     @ManyToMany
@@ -36,5 +42,5 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user2")),
             inverseJoinColumns = @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "fk_user3"))
     )
-    private List<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 }

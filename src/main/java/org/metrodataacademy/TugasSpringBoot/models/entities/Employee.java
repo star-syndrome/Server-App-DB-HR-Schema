@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table()
+@Table(uniqueConstraints = @UniqueConstraint(name = "email_unique", columnNames = "email"))
 public class Employee {
 
     @Id
@@ -22,13 +22,12 @@ public class Employee {
     @Column(nullable = false, length = 50)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String email;
 
-    @Column(length = 13, unique = true)
+    @Column(length = 13)
     private String phone;
 
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @OneToOne(mappedBy = "employee")
     private User user;
 }
