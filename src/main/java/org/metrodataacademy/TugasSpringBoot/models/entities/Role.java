@@ -6,24 +6,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(name = "name_unique", columnNames = "name"))
+@Table()
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 25)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
+    private List<User> users;
 }
