@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/country")
-public class CountryController implements
+@PreAuthorize(value = "hasAnyRole('ADMIN', 'USER')")
+public class CountryControllerImpl implements
         GenericController<Object, Integer, String, CreateCountryRequest, UpdateCountryRequest> {
 
     @Autowired
@@ -25,6 +27,7 @@ public class CountryController implements
             path = "/getAll",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @PreAuthorize(value = "hasAnyAuthority('READ_USER', 'READ_ADMIN')")
     public ResponseEntity<Object> getAll() {
         return ResponseData.statusResponse(countryService.getAll(),
                 HttpStatus.OK, "Successfully getting all countries!");
@@ -35,6 +38,7 @@ public class CountryController implements
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @PreAuthorize(value = "hasAnyAuthority('READ_ADMIN', 'READ_USER')")
     public ResponseEntity<Object> getById(@PathVariable Integer id) {
         return ResponseData.statusResponse(countryService.getById(id),
                 HttpStatus.OK, "Successfully getting data country with id " + id + "!");
@@ -45,6 +49,7 @@ public class CountryController implements
             path = "/search",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @PreAuthorize(value = "hasAnyAuthority('READ_USER', 'READ_ADMIN')")
     public ResponseEntity<Object> search(@RequestParam String name) {
         return ResponseData.statusResponse(countryService.search(name),
                 HttpStatus.OK, "Successfully get data countries by method searching!");
@@ -56,6 +61,7 @@ public class CountryController implements
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @PreAuthorize(value = "hasAnyAuthority('CREATE_ADMIN')")
     public ResponseEntity<Object> create(@Validated @RequestBody CreateCountryRequest request) {
         return ResponseData.statusResponse(countryService.create(request),
                 HttpStatus.OK, "Successfully created a new country!");
@@ -67,6 +73,7 @@ public class CountryController implements
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
+    @PreAuthorize(value = "hasAnyAuthority('UPDATE_ADMIN')")
     public ResponseEntity<Object> update(@PathVariable Integer id,
                                          @Validated @RequestBody UpdateCountryRequest request) {
         return ResponseData.statusResponse(countryService.update(id, request),
@@ -78,6 +85,7 @@ public class CountryController implements
             path = "/delete/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @PreAuthorize(value = "hasAnyAuthority('DELETE_ADMIN')")
     public ResponseEntity<Object> delete(@PathVariable Integer id) {
         countryService.delete(id);
         return ResponseData.statusResponse(null, HttpStatus.OK, "Successfully deleted a country!");

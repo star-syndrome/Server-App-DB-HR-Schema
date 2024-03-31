@@ -49,17 +49,11 @@ public class EmailServiceImpl implements EmailService {
         try {
             log.info("Trying sent an email to {}", emailRequest.getRecipient());
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
             mimeMessageHelper.setTo(emailRequest.getRecipient());
             mimeMessageHelper.setSubject(emailRequest.getSubject());
-
-            Context thymeleafContext = new Context();
-            thymeleafContext.setVariable("recipient", emailRequest.getRecipient());
-            thymeleafContext.setVariable("body", emailRequest.getContent());
-            String htmlBody = templateEngine.process("email.html", thymeleafContext);
-
-            mimeMessageHelper.setText(htmlBody, true);
+            mimeMessageHelper.setText(emailRequest.getContent());
 
             FileSystemResource fileSystemResource = new FileSystemResource(emailRequest.getAttachment());
             mimeMessageHelper

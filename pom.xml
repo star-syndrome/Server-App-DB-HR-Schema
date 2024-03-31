@@ -11,7 +11,7 @@
 	<groupId>org.metrodataacademy</groupId>
 	<artifactId>TugasSpringBoot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Tugas Spring Boot</name>
+	<name>Spring Boot Project</name>
 	<description>Spring Boot Project Metrodata Academy</description>
 	<properties>
 		<java.version>1.8</java.version>
@@ -48,6 +48,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
 		<dependency>

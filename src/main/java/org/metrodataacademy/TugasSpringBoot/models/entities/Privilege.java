@@ -14,25 +14,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tb_role", uniqueConstraints = @UniqueConstraint(name = "name_unique", columnNames = "name"))
-public class Role {
+@Table(name = "tb_privilege")
+public class Privilege {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "privileges")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<User> users;
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "role_privilege",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "privilege_id")
-    )
-    private List<Privilege> privileges;
+    private List<Role> roles;
 }
