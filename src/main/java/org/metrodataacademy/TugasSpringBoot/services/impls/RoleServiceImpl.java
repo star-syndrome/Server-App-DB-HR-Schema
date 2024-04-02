@@ -36,6 +36,7 @@ public class RoleServiceImpl implements
     private ModelMapper modelMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<RoleResponse> getAll() {
         log.info("Successfully getting all roles!");
         return roleRepository.findAll().stream()
@@ -44,6 +45,7 @@ public class RoleServiceImpl implements
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RoleResponse getById(Integer id) {
         log.info("Getting role data from role id {}", id);
         return roleRepository.findById(id)
@@ -52,6 +54,7 @@ public class RoleServiceImpl implements
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<RoleResponse> search(String name) {
         log.info("Successfully get regions data by method searching!");
         return roleRepository.searchRoleByName(name).stream()
