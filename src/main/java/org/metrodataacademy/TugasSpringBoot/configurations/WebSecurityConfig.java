@@ -1,4 +1,4 @@
-package org.metrodataacademy.TugasSpringBoot.securities;
+package org.metrodataacademy.TugasSpringBoot.configurations;
 
 import org.metrodataacademy.TugasSpringBoot.services.impls.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
