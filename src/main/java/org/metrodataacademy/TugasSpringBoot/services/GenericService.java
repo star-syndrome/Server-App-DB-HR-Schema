@@ -14,5 +14,5 @@ public interface GenericService<T, ID, NAME, REQ1, REQ2> {
 
     T getById(ID id);
 
-    void delete(ID id);
+    T delete(ID id);
 }

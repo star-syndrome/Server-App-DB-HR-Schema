@@ -4,12 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.LoginRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.RegistrationRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.responses.LoginResponse;
-import org.metrodataacademy.TugasSpringBoot.models.dtos.responses.MessageResponse;
+import org.metrodataacademy.TugasSpringBoot.models.dtos.responses.UserResponse;
 import org.metrodataacademy.TugasSpringBoot.models.entities.Employee;
 import org.metrodataacademy.TugasSpringBoot.models.entities.Role;
 import org.metrodataacademy.TugasSpringBoot.models.entities.User;
 import org.metrodataacademy.TugasSpringBoot.repositories.EmployeeRepository;
-import org.metrodataacademy.TugasSpringBoot.repositories.RoleRepository;
 import org.metrodataacademy.TugasSpringBoot.repositories.UserRepository;
 import org.metrodataacademy.TugasSpringBoot.services.AuthService;
 import org.modelmapper.ModelMapper;
@@ -26,7 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,16 +33,13 @@ import java.util.stream.Collectors;
 @Transactional
 @Slf4j
 public class AuthServiceImpl implements
-        AuthService<MessageResponse, LoginResponse, RegistrationRequest, LoginRequest> {
+        AuthService<UserResponse, LoginResponse, RegistrationRequest, LoginRequest> {
 
     @Autowired
     private EmployeeRepository employeeRepository;
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -57,48 +53,39 @@ public class AuthServiceImpl implements
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    private RoleServiceImpl roleServiceImpl;
 
     @Override
-    public MessageResponse registration(RegistrationRequest request) {
+    public UserResponse registration(RegistrationRequest registrationRequest) {
         try {
-            log.info("Trying to registration employee with name: {}", request.getName());
-            if (employeeRepository.existsByPhoneOrEmail(request.getPhone(), request.getEmail())) {
+            log.info("Trying to registration employee with name: {}", registrationRequest.getName());
+            if (employeeRepository.existsByPhoneOrEmail(registrationRequest.getPhone(), registrationRequest.getEmail())) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email or phone already exists!");
-            } else if (userRepository.existsByUsername(request.getUsername())) {
+            } else if (userRepository.existsByUsername(registrationRequest.getUsername())) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists!");
             }
 
-            Employee employees = modelMapper.map(request, Employee.class);
-            User users = User.builder()
-                    .username(request.getUsername())
-                    .password(passwordEncoder.encode(request.getPassword()))
-                    .build();
+            Employee employees = modelMapper.map(registrationRequest, Employee.class);
+            User users = modelMapper.map(registrationRequest, User.class);
 
-            List<String> roleName = request.getRole();
-            List<Role> roles = new ArrayList<>();
+            users.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 
-            if (roleName == null) {
-                Role role = roleRepository.findByName("USER")
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found!"));
-                roles.add(role);
-            } else {
-                roleName.forEach(role -> {
-                    Role rol = roleRepository.findByName(role)
-                            .orElseThrow(() -> new ResponseStatusException
-                                    (HttpStatus.NOT_FOUND, "Role " + role + " is not found!"));
-                    roles.add(rol);
-                });
-            }
-
+            List<Role> roles = Collections.singletonList(roleServiceImpl.getById(2));
             users.setRoles(roles);
+
             users.setEmployee(employees);
             employees.setUser(users);
-
             employeeRepository.save(employees);
-            log.info("Registration employee success, new employee: {}", request.getName());
 
-            return MessageResponse.builder()
-                    .message("Registration employee success, new employee: " + request.getName())
+            log.info("Registration employee success, new employee: {}", registrationRequest.getName());
+
+            return UserResponse.builder()
+                    .id(employees.getId())
+                    .name(employees.getName())
+                    .email(employees.getEmail())
+                    .phone(employees.getPhone())
+                    .username(employees.getUser().getUsername())
                     .build();
         } catch (Exception e) {
             log.error("Error: " + e.getMessage());

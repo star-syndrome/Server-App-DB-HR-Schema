@@ -5,24 +5,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateCountryRequest {
+public class UpdateUserRequest {
 
-    @NotBlank
-    @Size(max = 2)
-    private String code;
-
-    @NotBlank
     @Size(max = 50)
     private String name;
 
-    @NotNull
-    private Integer regionId;
+    @Email
+    private String email;
+
+    @Size(max = 13)
+    private String phone;
 }

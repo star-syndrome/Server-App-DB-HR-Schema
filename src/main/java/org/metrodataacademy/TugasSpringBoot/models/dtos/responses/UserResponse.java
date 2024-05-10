@@ -5,15 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleResponse {
+public class UserResponse {
 
     private Integer id;
     private String name;
-    private List<PrivilegeResponse> privileges;
+    private String email;
+    private String phone;
+    private String username;
 }

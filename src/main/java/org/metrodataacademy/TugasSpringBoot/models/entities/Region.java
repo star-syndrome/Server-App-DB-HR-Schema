@@ -24,7 +24,7 @@ public class Region {
     @Column(nullable = false, length = 25)
     private String name;
 
-    @OneToMany(mappedBy = "region")
+    @OneToMany(mappedBy = "region", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     List<Country> countries;
 }

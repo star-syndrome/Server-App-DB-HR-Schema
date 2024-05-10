@@ -69,6 +69,10 @@ public class CountryServiceImpl implements
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Country code already exists!");
             }
 
+            if (countryRepository.existsByName(request.getName())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Country name already exists!");
+            }
+
             Region region = regionRepository.findById(request.getRegionId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Region not found!"));
 
@@ -91,12 +95,20 @@ public class CountryServiceImpl implements
             Country country = countryRepository.findById(id)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found!"));
 
-            if (countryRepository.existsByCode(request.getCode())) {
+            if (countryRepository.countByCodeForUpdate(request.getCode(), id)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Country code already exists!");
             }
 
-            country.setCode(request.getCode() == null || request.getCode().isEmpty() ? country.getCode() : request.getCode());
-            country.setName(request.getName() == null || request.getName().isEmpty() ? country.getName() : request.getName());
+            if (countryRepository.countByNameForUpdate(request.getName(), id)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Country name already exist!");
+            }
+
+            Region region = regionRepository.findById(request.getRegionId())
+                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Region not found!"));
+
+            country.setCode(request.getCode());
+            country.setName(request.getName());
+            country.setRegion(region);
             countryRepository.save(country);
             log.info("Updating country " + request.getName() + " was successful!");
 
@@ -108,7 +120,7 @@ public class CountryServiceImpl implements
     }
 
     @Override
-    public void delete(Integer id) {
+    public CountryResponse delete(Integer id) {
         try {
             log.info("Trying to delete country with id: {}", id);
             Country country = countryRepository.findById(id)
@@ -117,6 +129,7 @@ public class CountryServiceImpl implements
             countryRepository.delete(country);
             log.info("Deleting country with id: " + id + " was successful!");
 
+            return modelMapper.map(country, CountryResponse.class);
         } catch (Exception e) {
             log.error("Error: " + e.getMessage());
             throw e;

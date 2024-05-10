@@ -2,9 +2,9 @@ package org.metrodataacademy.TugasSpringBoot.controllers;
 
 import org.springframework.http.ResponseEntity;
 
-public interface AuthController<T, REQ1, REQ2> {
+public interface AuthController<T1, T2, REQ1, REQ2> {
 
-    ResponseEntity<T> registration(REQ1 req);
+    ResponseEntity<T1> registration(REQ1 req);
 
-    ResponseEntity<T> login(REQ2 req);
+    ResponseEntity<T2> login(REQ2 req);
 }

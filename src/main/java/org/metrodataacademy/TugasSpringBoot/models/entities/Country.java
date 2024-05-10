@@ -12,20 +12,20 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(name = "code_unique", columnNames = "code"))
+@Table
 public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 2)
+    @Column(nullable = false, length = 2, unique = true)
     private String code;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50, unique = true)
     private String name;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(
             name = "region_id",
             referencedColumnName = "id",

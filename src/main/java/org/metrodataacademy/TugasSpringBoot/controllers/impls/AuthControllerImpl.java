@@ -3,21 +3,19 @@ package org.metrodataacademy.TugasSpringBoot.controllers.impls;
 import org.metrodataacademy.TugasSpringBoot.controllers.AuthController;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.LoginRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.RegistrationRequest;
-import org.metrodataacademy.TugasSpringBoot.models.dtos.responses.ResponseData;
+import org.metrodataacademy.TugasSpringBoot.models.dtos.responses.LoginResponse;
+import org.metrodataacademy.TugasSpringBoot.models.dtos.responses.UserResponse;
 import org.metrodataacademy.TugasSpringBoot.services.impls.AuthServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthControllerImpl implements AuthController<Object, RegistrationRequest, LoginRequest> {
+@CrossOrigin(origins = "http://localhost:8300", allowCredentials = "true")
+public class AuthControllerImpl implements AuthController<UserResponse, LoginResponse, RegistrationRequest, LoginRequest> {
 
     @Autowired
     private AuthServiceImpl authService;
@@ -28,9 +26,8 @@ public class AuthControllerImpl implements AuthController<Object, RegistrationRe
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> registration(@Validated @RequestBody RegistrationRequest registrationRequest) {
-        return ResponseData.statusResponse(authService.registration(registrationRequest),
-                HttpStatus.OK, "Registration employee success!");
+    public ResponseEntity<UserResponse> registration(@Validated @RequestBody RegistrationRequest registrationRequest) {
+        return ResponseEntity.ok().body(authService.registration(registrationRequest));
     }
 
     @Override
@@ -39,8 +36,7 @@ public class AuthControllerImpl implements AuthController<Object, RegistrationRe
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> login(@Validated @RequestBody LoginRequest req) {
-        return ResponseData.statusResponse(authService.login(req),
-                HttpStatus.OK, "Login success!");
+    public ResponseEntity<LoginResponse> login(@Validated @RequestBody LoginRequest req) {
+        return ResponseEntity.ok().body(authService.login(req));
     }
 }

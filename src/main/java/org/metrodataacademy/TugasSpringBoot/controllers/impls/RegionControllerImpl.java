@@ -3,10 +3,8 @@ package org.metrodataacademy.TugasSpringBoot.controllers.impls;
 import org.metrodataacademy.TugasSpringBoot.controllers.GenericController;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.CreateRegionRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.UpdateRegionRequest;
-import org.metrodataacademy.TugasSpringBoot.models.dtos.responses.ResponseData;
 import org.metrodataacademy.TugasSpringBoot.services.impls.RegionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,8 +27,7 @@ public class RegionControllerImpl implements
     )
     @PreAuthorize(value = "hasAnyAuthority('READ_ADMIN', 'READ_USER')")
     public ResponseEntity<Object> getAll() {
-        return ResponseData.statusResponse(regionService.getAll(),
-                HttpStatus.OK, "Successfully getting all regions!");
+        return ResponseEntity.ok().body(regionService.getAll());
     }
 
     @Override
@@ -40,8 +37,7 @@ public class RegionControllerImpl implements
     )
     @PreAuthorize(value = "hasAnyAuthority('READ_ADMIN', 'READ_USER')")
     public ResponseEntity<Object> getById(@PathVariable Integer id) {
-        return ResponseData.statusResponse(regionService.getById(id),
-                HttpStatus.OK, "Successfully getting data region with id " + id + "!");
+        return ResponseEntity.ok().body(regionService.getById(id));
     }
 
     @Override
@@ -51,8 +47,7 @@ public class RegionControllerImpl implements
     )
     @PreAuthorize(value = "hasAnyAuthority('READ_ADMIN', 'READ_USER')")
     public ResponseEntity<Object> search(@RequestParam String name) {
-        return ResponseData.statusResponse(regionService.search(name),
-                HttpStatus.OK, "Successfully get data regions by method searching!");
+        return ResponseEntity.ok().body(regionService.search(name));
     }
 
     @Override
@@ -61,10 +56,9 @@ public class RegionControllerImpl implements
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAuthority('CREATE_ADMIN')")
+    @PreAuthorize(value = "hasAuthority('CREATE_USER')")
     public ResponseEntity<Object> create(@Validated @RequestBody CreateRegionRequest request) {
-        return ResponseData.statusResponse(regionService.create(request),
-                HttpStatus.OK, "Successfully created a new region!");
+        return ResponseEntity.ok().body(regionService.create(request));
     }
 
     @Override
@@ -73,11 +67,10 @@ public class RegionControllerImpl implements
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAuthority('UPDATE_ADMIN')")
+    @PreAuthorize(value = "hasAuthority('UPDATE_USER')")
     public ResponseEntity<Object> update(@PathVariable Integer id,
                                          @Validated @RequestBody UpdateRegionRequest request) {
-        return ResponseData.statusResponse(regionService.update(id, request),
-                HttpStatus.OK, "Successfully updated a region!");
+        return ResponseEntity.ok().body(regionService.update(id, request));
     }
 
     @Override
@@ -85,9 +78,8 @@ public class RegionControllerImpl implements
             path = "/delete/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAuthority('DELETE_ADMIN')")
+    @PreAuthorize(value = "hasAuthority('DELETE_USER')")
     public ResponseEntity<Object> delete(@PathVariable Integer id) {
-        regionService.delete(id);
-        return ResponseData.statusResponse(null, HttpStatus.OK, "Successfully deleted a region!");
+        return ResponseEntity.ok().body(regionService.delete(id));
     }
 }

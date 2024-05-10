@@ -101,15 +101,16 @@ public class RegionServiceImpl implements
     }
 
     @Override
-    public void delete(Integer id) {
+    public RegionResponse delete(Integer id) {
         try {
             log.info("Trying to delete a region");
             Region region = regionRepository.findById(id)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Region not found!"));
 
-            regionRepository.deleteById(region.getId());
+            regionRepository.delete(region);
             log.info("Deleting region with id: " + id + " was successful!");
 
+            return modelMapper.map(region, RegionResponse.class);
         } catch (Exception e) {
             log.error("Error: " + e.getMessage());
             throw e;

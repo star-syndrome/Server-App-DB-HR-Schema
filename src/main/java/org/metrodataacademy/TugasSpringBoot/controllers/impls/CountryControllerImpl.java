@@ -3,10 +3,8 @@ package org.metrodataacademy.TugasSpringBoot.controllers.impls;
 import org.metrodataacademy.TugasSpringBoot.controllers.GenericController;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.CreateCountryRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.UpdateCountryRequest;
-import org.metrodataacademy.TugasSpringBoot.models.dtos.responses.ResponseData;
 import org.metrodataacademy.TugasSpringBoot.services.impls.CountryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,8 +27,7 @@ public class CountryControllerImpl implements
     )
     @PreAuthorize(value = "hasAnyAuthority('READ_USER', 'READ_ADMIN')")
     public ResponseEntity<Object> getAll() {
-        return ResponseData.statusResponse(countryService.getAll(),
-                HttpStatus.OK, "Successfully getting all countries!");
+        return ResponseEntity.ok().body(countryService.getAll());
     }
 
     @Override
@@ -38,10 +35,9 @@ public class CountryControllerImpl implements
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAnyAuthority('READ_ADMIN', 'READ_USER')")
+    @PreAuthorize(value = "hasAuthority('READ_ADMIN')")
     public ResponseEntity<Object> getById(@PathVariable Integer id) {
-        return ResponseData.statusResponse(countryService.getById(id),
-                HttpStatus.OK, "Successfully getting data country with id " + id + "!");
+        return ResponseEntity.ok().body(countryService.getById(id));
     }
 
     @Override
@@ -51,8 +47,7 @@ public class CountryControllerImpl implements
     )
     @PreAuthorize(value = "hasAnyAuthority('READ_USER', 'READ_ADMIN')")
     public ResponseEntity<Object> search(@RequestParam String name) {
-        return ResponseData.statusResponse(countryService.search(name),
-                HttpStatus.OK, "Successfully get data countries by method searching!");
+        return ResponseEntity.ok().body(countryService.search(name));
     }
 
     @Override
@@ -63,8 +58,7 @@ public class CountryControllerImpl implements
     )
     @PreAuthorize(value = "hasAnyAuthority('CREATE_ADMIN')")
     public ResponseEntity<Object> create(@Validated @RequestBody CreateCountryRequest request) {
-        return ResponseData.statusResponse(countryService.create(request),
-                HttpStatus.OK, "Successfully created a new country!");
+        return ResponseEntity.ok().body(countryService.create(request));
     }
 
     @Override
@@ -76,8 +70,7 @@ public class CountryControllerImpl implements
     @PreAuthorize(value = "hasAnyAuthority('UPDATE_ADMIN')")
     public ResponseEntity<Object> update(@PathVariable Integer id,
                                          @Validated @RequestBody UpdateCountryRequest request) {
-        return ResponseData.statusResponse(countryService.update(id, request),
-                HttpStatus.OK, "Successfully updated a country!");
+        return ResponseEntity.ok().body(countryService.update(id, request));
     }
 
     @Override
@@ -86,8 +79,7 @@ public class CountryControllerImpl implements
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @PreAuthorize(value = "hasAnyAuthority('DELETE_ADMIN')")
-    public ResponseEntity<Object> delete(@PathVariable Integer id) {
-        countryService.delete(id);
-        return ResponseData.statusResponse(null, HttpStatus.OK, "Successfully deleted a country!");
+    public ResponseEntity<Object> delete(@PathVariable Integer id) {;
+        return ResponseEntity.ok().body(countryService.delete(id));
     }
 }
