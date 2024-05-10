@@ -56,7 +56,7 @@ public class RegionControllerImpl implements
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAuthority('CREATE_USER')")
+    @PreAuthorize(value = "hasAnyAuthority('CREATE_USER', 'CREATE_ADMIN')")
     public ResponseEntity<Object> create(@Validated @RequestBody CreateRegionRequest request) {
         return ResponseEntity.ok().body(regionService.create(request));
     }
@@ -67,7 +67,7 @@ public class RegionControllerImpl implements
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAuthority('UPDATE_USER')")
+    @PreAuthorize(value = "hasAnyAuthority('UPDATE_USER', 'UPDATE_ADMIN')")
     public ResponseEntity<Object> update(@PathVariable Integer id,
                                          @Validated @RequestBody UpdateRegionRequest request) {
         return ResponseEntity.ok().body(regionService.update(id, request));
@@ -78,7 +78,7 @@ public class RegionControllerImpl implements
             path = "/delete/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAuthority('DELETE_USER')")
+    @PreAuthorize(value = "hasAnyAuthority('DELETE_USER', 'DELETE_ADMIN')")
     public ResponseEntity<Object> delete(@PathVariable Integer id) {
         return ResponseEntity.ok().body(regionService.delete(id));
     }
