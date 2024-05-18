@@ -1,6 +1,7 @@
 package org.metrodataacademy.TugasSpringBoot.services.impls;
 
 import lombok.extern.slf4j.Slf4j;
+import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.ForgotPasswordRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.LoginRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.RegistrationRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.responses.LoginResponse;
@@ -33,7 +34,7 @@ import java.util.stream.Collectors;
 @Transactional
 @Slf4j
 public class AuthServiceImpl implements
-        AuthService<UserResponse, LoginResponse, RegistrationRequest, LoginRequest> {
+        AuthService<UserResponse, LoginResponse, RegistrationRequest, LoginRequest, ForgotPasswordRequest> {
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -79,7 +80,6 @@ public class AuthServiceImpl implements
             employeeRepository.save(employees);
 
             log.info("Registration employee success, new employee: {}", registrationRequest.getName());
-
             return UserResponse.builder()
                     .id(employees.getId())
                     .name(employees.getName())
@@ -88,7 +88,7 @@ public class AuthServiceImpl implements
                     .username(employees.getUser().getUsername())
                     .build();
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }
@@ -109,7 +109,7 @@ public class AuthServiceImpl implements
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
 
-            log.info("User: " + userDetails.getUsername() + " successfully sign in!");
+            System.out.println("Successfully sign in, user: " + userDetails.getUsername());
             return LoginResponse.builder()
                     .id(user.getId())
                     .username(userDetails.getUsername())
@@ -117,7 +117,36 @@ public class AuthServiceImpl implements
                     .roles(roles)
                     .build();
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public UserResponse forgotPassword(ForgotPasswordRequest forgotPasswordRequest) {
+        try {
+            log.info("Trying to forgot password!");
+            User user = userRepository.findByUsername(forgotPasswordRequest.getUsername())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
+
+            if (!forgotPasswordRequest.getNewPassword().equals(forgotPasswordRequest.getRepeatNewPassword())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password not match!");
+            }
+
+            String encode = passwordEncoder.encode(forgotPasswordRequest.getNewPassword());
+            user.setPassword(encode);
+            userRepository.save(user);
+            log.info("Forgot password success!");
+
+            return UserResponse.builder()
+                    .id(user.getId())
+                    .name(user.getEmployee().getName())
+                    .email(user.getEmployee().getEmail())
+                    .phone(user.getEmployee().getPhone())
+                    .username(user.getUsername())
+                    .build();
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }

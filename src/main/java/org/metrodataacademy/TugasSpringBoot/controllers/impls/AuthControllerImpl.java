@@ -1,6 +1,7 @@
 package org.metrodataacademy.TugasSpringBoot.controllers.impls;
 
 import org.metrodataacademy.TugasSpringBoot.controllers.AuthController;
+import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.ForgotPasswordRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.LoginRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.RegistrationRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.responses.LoginResponse;
@@ -15,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin(origins = "http://localhost:8300", allowCredentials = "true")
-public class AuthControllerImpl implements AuthController<UserResponse, LoginResponse, RegistrationRequest, LoginRequest> {
+public class AuthControllerImpl implements
+        AuthController<UserResponse, LoginResponse, RegistrationRequest, LoginRequest, ForgotPasswordRequest> {
 
     @Autowired
     private AuthServiceImpl authService;
@@ -38,5 +40,14 @@ public class AuthControllerImpl implements AuthController<UserResponse, LoginRes
     )
     public ResponseEntity<LoginResponse> login(@Validated @RequestBody LoginRequest req) {
         return ResponseEntity.ok().body(authService.login(req));
+    }
+
+    @Override
+    @PostMapping(
+            path = "/forgotPassword",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<UserResponse> forgotPassword(@Validated @RequestBody ForgotPasswordRequest forgotPasswordRequest) {
+        return ResponseEntity.ok().body(authService.forgotPassword(forgotPasswordRequest));
     }
 }

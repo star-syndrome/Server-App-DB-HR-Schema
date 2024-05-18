@@ -73,7 +73,7 @@ public class RegionServiceImpl implements
 
             return modelMapper.map(region, RegionResponse.class);
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }
@@ -91,11 +91,11 @@ public class RegionServiceImpl implements
 
             region.setName(request.getName());
             regionRepository.save(region);
-            log.info("Updating region "+ request.getName() + " was successful!");
+            log.info("Updating region {} was successful!", request.getName());
 
             return modelMapper.map(region, RegionResponse.class);
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }
@@ -108,11 +108,11 @@ public class RegionServiceImpl implements
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Region not found!"));
 
             regionRepository.delete(region);
-            log.info("Deleting region with id: " + id + " was successful!");
+            log.info("Deleting region with id: {} was successful!", id);
 
             return modelMapper.map(region, RegionResponse.class);
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }

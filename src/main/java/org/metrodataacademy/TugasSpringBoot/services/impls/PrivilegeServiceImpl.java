@@ -62,7 +62,7 @@ public class PrivilegeServiceImpl implements
 
             return privilegeRepository.save(privilege);
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }
@@ -80,11 +80,11 @@ public class PrivilegeServiceImpl implements
 
             privilege.setName(request.getName());
 
-            log.info("Updating privilege "+ request.getName() + " was successful!");
+            log.info("Updating privilege {} was successful!", request.getName());
 
             return privilegeRepository.save(privilege);
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }
@@ -101,11 +101,11 @@ public class PrivilegeServiceImpl implements
             }
 
             privilegeRepository.delete(privilege);
-            log.info("Deleting privilege with id: " + id + " was successful!");
+            log.info("Deleting privilege with id: {} was successful!", id);
 
             return privilege;
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }

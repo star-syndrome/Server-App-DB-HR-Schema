@@ -83,7 +83,7 @@ public class CountryServiceImpl implements
 
             return toCountryResponse(country);
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }
@@ -110,11 +110,11 @@ public class CountryServiceImpl implements
             country.setName(request.getName());
             country.setRegion(region);
             countryRepository.save(country);
-            log.info("Updating country " + request.getName() + " was successful!");
+            log.info("Updating country {} was successful!", request.getName());
 
             return toCountryResponse(country);
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }
@@ -127,11 +127,11 @@ public class CountryServiceImpl implements
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found!"));
 
             countryRepository.delete(country);
-            log.info("Deleting country with id: " + id + " was successful!");
+            log.info("Deleting country with id: {} was successful!", id);
 
             return modelMapper.map(country, CountryResponse.class);
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }

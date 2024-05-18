@@ -79,7 +79,7 @@ public class RoleServiceImpl implements
 
             return roleRepository.save(role);
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }
@@ -108,11 +108,11 @@ public class RoleServiceImpl implements
             role.setName(request.getName() == null || request.getName().isEmpty() ? role.getName() : request.getName());
             role.setPrivileges(privileges);
 
-            log.info("Updating role "+ request.getName() + " was successful!");
+            log.info("Updating role {} was successful!", request.getName());
 
             return roleRepository.save(role);
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }
@@ -126,11 +126,11 @@ public class RoleServiceImpl implements
 
             role.getPrivileges().clear();
             roleRepository.deleteById(role.getId());
-            log.info("Deleting role with id: " + id + " was successful!");
+            log.info("Deleting role with id: {} was successful!", id);
 
             return role;
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }

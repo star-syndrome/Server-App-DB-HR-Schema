@@ -51,7 +51,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
             return toUserResponse(user);
         } catch (Exception e) {
-            log.error("Error: {}", e.getMessage());
+            System.out.println("Error: {}" + e.getMessage());
             throw e;
         }
     }
@@ -80,7 +80,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
             return toUserResponse(employee.getUser());
         } catch (Exception e) {
-            log.error("Error : {}", e.getMessage());
+            System.out.println("Error: {}" + e.getMessage());
             throw e;
         }
     }
@@ -106,7 +106,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
             return toUserResponse(user);
         } catch (Exception e) {
-            log.error("Error: {}", e.getMessage());
+            System.out.println("Error: {}" + e.getMessage());
             throw e;
         }
     }

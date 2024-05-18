@@ -39,7 +39,7 @@ public class EmailServiceImpl implements EmailService {
             javaMailSender.send(message);
             log.info("Message sent successfully to {}", emailRequest.getRecipient());
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }
@@ -47,7 +47,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendEmailWithAttachment(EmailRequest emailRequest) throws MessagingException {
         try {
-            log.info("Trying sent an email to {}", emailRequest.getRecipient());
+            log.info("Sent an email to recipient {}", emailRequest.getRecipient());
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
@@ -62,7 +62,7 @@ public class EmailServiceImpl implements EmailService {
             javaMailSender.send(mimeMessage);
             log.info("Message with attachment sent successfully to {}", emailRequest.getRecipient());
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }
@@ -91,7 +91,7 @@ public class EmailServiceImpl implements EmailService {
             javaMailSender.send(mimeMessage);
             log.info("Email sent successfully to {}", emailRequest.getRecipient());
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }

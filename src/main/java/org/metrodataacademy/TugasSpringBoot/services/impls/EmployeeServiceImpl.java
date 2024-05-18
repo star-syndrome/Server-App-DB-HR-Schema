@@ -60,11 +60,11 @@ public class EmployeeServiceImpl implements
             employee.setEmail(req.getEmail() == null || req.getEmail().isEmpty() ? employee.getEmail() : req.getEmail());
             employee.setPhone(req.getPhone() == null || req.getPhone().isEmpty() ? employee.getPhone() : req.getPhone());
 
-            log.info("Updating employee " + req.getName() + " was successful!");
+            log.info("Updating employee {} was successful!", req.getName());
 
             return employeeRepository.save(employee);
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }
@@ -77,11 +77,11 @@ public class EmployeeServiceImpl implements
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found!"));
 
             employeeRepository.delete(employee);
-            log.info("Deleting employee with id: " + id + " was successful!");
+            log.info("Deleting employee with id: {} was successful!", id);
 
             return employee;
         } catch (Exception e) {
-            log.error("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             throw e;
         }
     }
