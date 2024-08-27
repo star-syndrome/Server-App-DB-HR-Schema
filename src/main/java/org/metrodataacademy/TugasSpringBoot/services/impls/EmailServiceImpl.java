@@ -17,7 +17,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.*;
 
-
 @Service
 @Slf4j
 public class EmailServiceImpl implements EmailService {

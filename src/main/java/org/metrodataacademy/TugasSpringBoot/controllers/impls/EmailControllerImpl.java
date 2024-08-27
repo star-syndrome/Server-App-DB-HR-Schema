@@ -32,7 +32,7 @@ public class EmailControllerImpl implements EmailController {
 
     @Override
     @PostMapping(
-            path = "/sendWithAttachment",
+            path = "/send-with-attachment",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
@@ -43,7 +43,7 @@ public class EmailControllerImpl implements EmailController {
 
     @Override
     @PostMapping(
-            path = "/sendWithHTML",
+            path = "/send-with-HTML",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )

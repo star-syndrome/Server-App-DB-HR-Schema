@@ -20,7 +20,6 @@ public class UserController {
     private UserDetailsServiceImpl userDetailsService;
 
     @GetMapping(
-            path = "/get",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @PreAuthorize(value = "hasAnyAuthority('READ_USER', 'READ_ADMIN')")
@@ -30,7 +29,6 @@ public class UserController {
     }
 
     @PutMapping(
-            path = "/update",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
@@ -41,7 +39,7 @@ public class UserController {
     }
 
     @PutMapping(
-            path = "/changePassword",
+            path = "/change-password",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )

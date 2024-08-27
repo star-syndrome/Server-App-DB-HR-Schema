@@ -22,7 +22,6 @@ public class RegionControllerImpl implements
 
     @Override
     @GetMapping(
-            path = "/getAll",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @PreAuthorize(value = "hasAnyAuthority('READ_ADMIN', 'READ_USER')")
@@ -52,7 +51,6 @@ public class RegionControllerImpl implements
 
     @Override
     @PostMapping(
-            path = "/create",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -63,7 +61,7 @@ public class RegionControllerImpl implements
 
     @Override
     @PutMapping(
-            path = "/update/{id}",
+            path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
@@ -75,7 +73,7 @@ public class RegionControllerImpl implements
 
     @Override
     @DeleteMapping(
-            path = "/delete/{id}",
+            path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @PreAuthorize(value = "hasAnyAuthority('DELETE_USER', 'DELETE_ADMIN')")

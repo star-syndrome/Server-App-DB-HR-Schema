@@ -44,7 +44,7 @@ public class AuthControllerImpl implements
 
     @Override
     @PostMapping(
-            path = "/forgotPassword",
+            path = "/forgot-password",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<UserResponse> forgotPassword(@Validated @RequestBody ForgotPasswordRequest forgotPasswordRequest) {

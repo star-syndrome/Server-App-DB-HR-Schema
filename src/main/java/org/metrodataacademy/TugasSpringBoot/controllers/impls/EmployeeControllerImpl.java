@@ -20,7 +20,6 @@ public class EmployeeControllerImpl implements
 
     @Override
     @GetMapping(
-            path = "/getAll",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Object> getAll() {
@@ -48,7 +47,7 @@ public class EmployeeControllerImpl implements
 
     @Override
     @PutMapping(
-            path = "/update/{id}",
+            path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
@@ -59,7 +58,7 @@ public class EmployeeControllerImpl implements
 
     @Override
     @DeleteMapping(
-            path = "/delete/{id}",
+            path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Object> delete(@PathVariable Integer id) {

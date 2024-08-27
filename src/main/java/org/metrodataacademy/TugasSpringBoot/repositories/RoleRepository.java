@@ -11,8 +11,6 @@ import java.util.Optional;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-    Optional<Role> findByName(String name);
-
     Boolean existsByName(String name);
 
     @Query("SELECT r FROM Role r WHERE r.name LIKE %:name%")
