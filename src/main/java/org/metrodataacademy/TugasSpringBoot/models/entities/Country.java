@@ -1,11 +1,13 @@
 package org.metrodataacademy.TugasSpringBoot.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -32,4 +34,8 @@ public class Country {
             nullable = false,
             foreignKey = @ForeignKey(name = "fk_country"))
     private Region region;
+
+    @OneToMany(mappedBy = "country", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    List<Location> locations;
 }

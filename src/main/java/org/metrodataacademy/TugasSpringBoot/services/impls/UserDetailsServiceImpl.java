@@ -68,13 +68,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists!");
             }
 
-            if (employeeRepository.countByPhoneForUpdate(userRequest.getPhone(), employee.getId())) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Phone number already exists!");
-            }
-
-            employee.setName(userRequest.getName());
+            employee.setFirstName(userRequest.getName());
             employee.setEmail(userRequest.getEmail());
-            employee.setPhone(userRequest.getPhone());
+            employee.setPhoneNumber(userRequest.getPhone());
             employee.setUser(employee.getUser());
             employeeRepository.save(employee);
 
@@ -114,9 +110,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserResponse toUserResponse(User user) {
         return UserResponse.builder()
                 .id(user.getId())
-                .name(user.getEmployee().getName())
+                .name(user.getEmployee().getFirstName())
                 .email(user.getEmployee().getEmail())
-                .phone(user.getEmployee().getPhone())
+                .phone(user.getEmployee().getPhoneNumber())
                 .username(user.getUsername())
                 .build();
     }

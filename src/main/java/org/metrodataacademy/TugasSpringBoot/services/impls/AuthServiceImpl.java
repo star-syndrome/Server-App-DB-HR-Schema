@@ -61,7 +61,7 @@ public class AuthServiceImpl implements
     public UserResponse registration(RegistrationRequest registrationRequest) {
         try {
             log.info("Trying to registration employee with name: {}", registrationRequest.getName());
-            if (employeeRepository.existsByPhoneOrEmail(registrationRequest.getPhone(), registrationRequest.getEmail())) {
+            if (employeeRepository.existsByPhoneNumberOrEmail(registrationRequest.getPhone(), registrationRequest.getEmail())) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email or phone already exists!");
             } else if (userRepository.existsByUsername(registrationRequest.getUsername())) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists!");
@@ -72,7 +72,7 @@ public class AuthServiceImpl implements
 
             users.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 
-            List<Role> roles = Collections.singletonList(roleServiceImpl.getById(2));
+            List<Role> roles = Collections.singletonList(roleServiceImpl.getById(1));
             users.setRoles(roles);
 
             users.setEmployee(employees);
@@ -82,9 +82,9 @@ public class AuthServiceImpl implements
             log.info("Registration employee success, new employee: {}", registrationRequest.getName());
             return UserResponse.builder()
                     .id(employees.getId())
-                    .name(employees.getName())
+                    .name(employees.getFirstName())
                     .email(employees.getEmail())
-                    .phone(employees.getPhone())
+                    .phone(employees.getPhoneNumber())
                     .username(employees.getUser().getUsername())
                     .build();
         } catch (Exception e) {
@@ -140,9 +140,9 @@ public class AuthServiceImpl implements
 
             return UserResponse.builder()
                     .id(user.getId())
-                    .name(user.getEmployee().getName())
+                    .name(user.getEmployee().getFirstName())
                     .email(user.getEmployee().getEmail())
-                    .phone(user.getEmployee().getPhone())
+                    .phone(user.getEmployee().getPhoneNumber())
                     .username(user.getUsername())
                     .build();
         } catch (Exception e) {

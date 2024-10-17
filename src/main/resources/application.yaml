@@ -3,7 +3,7 @@ spring:
     name: Spring Boot Project
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/metro_data
+    url: jdbc:mysql://localhost:3306/kkp_msib6
     username: root
     password: starsyndrome
 
