@@ -73,11 +73,6 @@ public class DepartmentControllerImpl implements
 
     // Unused Endpoint
     @Override
-    @GetMapping(
-            path = "/search",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @PreAuthorize(value = "hasAnyAuthority('READ_ADMIN')")
     public ResponseEntity<Object> search(@RequestParam String name) {
         return null;
     }

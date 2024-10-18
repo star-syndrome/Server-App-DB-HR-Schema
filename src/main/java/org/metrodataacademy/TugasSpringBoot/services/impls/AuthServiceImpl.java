@@ -61,7 +61,7 @@ public class AuthServiceImpl implements
     public UserResponse registration(RegistrationRequest registrationRequest) {
         try {
             log.info("Trying to registration employee with name: {}", registrationRequest.getName());
-            if (employeeRepository.existsByPhoneNumberOrEmail(registrationRequest.getPhone(), registrationRequest.getEmail())) {
+            if (employeeRepository.existsByEmail(registrationRequest.getEmail())) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email or phone already exists!");
             } else if (userRepository.existsByUsername(registrationRequest.getUsername())) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists!");

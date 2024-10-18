@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LocationResponse {
+public class HistoryResponse {
 
-    private int id;
-    private String streetAddress;
-    private String postalCode;
-    private String city;
-    private String stateProvince;
-    private String countryName;
+    private Long id;
+    private String startDate;
+    private String endDate;
+    private String department;
+    private String employee;
+    private String job;
 }

@@ -1,5 +1,6 @@
 package org.metrodataacademy.TugasSpringBoot.models.dtos.requests;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,9 +27,6 @@ public class UpdateEmployeeRequest {
     private String email;
 
     private String phoneNumber;
-
-    @NotNull
-    private Date hireDate;
 
     private Integer salary;
     private Float commissionPct;

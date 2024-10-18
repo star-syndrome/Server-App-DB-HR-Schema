@@ -113,7 +113,7 @@ public class LocationServiceImpl implements
                 .postalCode(location.getPostalCode())
                 .stateProvince(location.getStateProvince())
                 .streetAddress(location.getStreetAddress())
-                .country_name(location.getCountry().getName())
+                .countryName(location.getCountry().getName())
                 .build();
     }
 }

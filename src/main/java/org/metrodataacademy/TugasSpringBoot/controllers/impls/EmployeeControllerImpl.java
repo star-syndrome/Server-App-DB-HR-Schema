@@ -1,8 +1,8 @@
 package org.metrodataacademy.TugasSpringBoot.controllers.impls;
 
 import org.metrodataacademy.TugasSpringBoot.controllers.GenericController;
+import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.CreateEmployeeRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.UpdateEmployeeRequest;
-import org.metrodataacademy.TugasSpringBoot.models.entities.Employee;
 import org.metrodataacademy.TugasSpringBoot.services.impls.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/employee")
 public class EmployeeControllerImpl implements
-        GenericController<Object, Integer, String, Employee, UpdateEmployeeRequest> {
+        GenericController<Object, Integer, String, CreateEmployeeRequest, UpdateEmployeeRequest> {
 
     @Autowired
     private EmployeeServiceImpl employeeService;
@@ -37,12 +37,12 @@ public class EmployeeControllerImpl implements
     }
 
     @Override
-    @GetMapping(
-            path = "/search",
+    @PostMapping(
+            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Object> search(@RequestParam String name) {
-        return ResponseEntity.ok().body(employeeService.search(name));
+    public ResponseEntity<Object> create(@RequestBody @Validated CreateEmployeeRequest req) {
+        return ResponseEntity.ok().body(employeeService.create(req));
     }
 
     @Override
@@ -66,7 +66,7 @@ public class EmployeeControllerImpl implements
     }
 
     @Override
-    public ResponseEntity<Object> create(Employee req) {
+    public ResponseEntity<Object> search(@RequestParam String name) {
         return null;
     }
 }

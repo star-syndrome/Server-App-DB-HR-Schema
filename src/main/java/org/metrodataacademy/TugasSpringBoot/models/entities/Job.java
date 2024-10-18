@@ -33,4 +33,8 @@ public class Job {
     @OneToMany(mappedBy = "job", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     List<Employee> employees;
+
+    @OneToMany(mappedBy = "job", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    List<History> histories;
 }

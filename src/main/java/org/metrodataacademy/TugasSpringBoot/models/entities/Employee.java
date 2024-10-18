@@ -66,4 +66,8 @@ public class Employee {
     @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     List<Department> departments;
+
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    List<History> histories;
 }

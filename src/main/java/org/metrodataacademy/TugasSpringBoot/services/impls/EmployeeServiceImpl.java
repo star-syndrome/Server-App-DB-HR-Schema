@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,7 +78,7 @@ public class EmployeeServiceImpl implements
                 .lastName(req.getLastName())
                 .email(req.getEmail())
                 .phoneNumber(req.getPhoneNumber())
-                .hireDate(req.getHireDate())
+                .hireDate(new Date())
                 .salary(req.getSalary())
                 .commissionPct(req.getCommissionPct())
                 .manager(manager)
@@ -113,7 +115,6 @@ public class EmployeeServiceImpl implements
         employee.setLastName(req.getLastName());
         employee.setEmail(req.getEmail());
         employee.setPhoneNumber(req.getPhoneNumber());
-        employee.setHireDate(req.getHireDate());
         employee.setSalary(req.getSalary());
         employee.setCommissionPct(req.getCommissionPct());
         employee.setManager(manager);
@@ -143,16 +144,17 @@ public class EmployeeServiceImpl implements
     }
 
     public EmpResponse toEmployeeResponse(Employee employee) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         return EmpResponse.builder()
                 .id(employee.getId())
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
                 .email(employee.getEmail())
                 .phoneNumber(employee.getPhoneNumber())
-                .hireDate(employee.getHireDate())
+                .hireDate(simpleDateFormat.format(employee.getHireDate()))
                 .salary(employee.getSalary())
                 .commissionPct(employee.getCommissionPct())
-                .manager(employee.getManager().getFirstName())
+                .manager(employee.getManager().getFirstName() + " " + employee.getManager().getLastName())
                 .job(employee.getJob().getTitle())
                 .department(employee.getDepartment().getName())
                 .build();
