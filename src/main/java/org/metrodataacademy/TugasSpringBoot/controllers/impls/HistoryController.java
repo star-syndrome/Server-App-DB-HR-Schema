@@ -1,6 +1,5 @@
 package org.metrodataacademy.TugasSpringBoot.controllers.impls;
 
-import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.CreateDepartmentRequest;
 import org.metrodataacademy.TugasSpringBoot.models.dtos.requests.CreateHistoryRequest;
 import org.metrodataacademy.TugasSpringBoot.services.impls.HistoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/history")
+@PreAuthorize(value = "hasRole('ADMIN')")
 public class HistoryController {
 
     @Autowired
@@ -29,8 +29,17 @@ public class HistoryController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAnyAuthority('CREATE_ADMIN')")
+    @PreAuthorize(value = "hasAuthority('CREATE_ADMIN')")
     public ResponseEntity<Object> create(@Validated @RequestBody CreateHistoryRequest request) {
         return ResponseEntity.ok().body(historyService.create(request));
+    }
+
+    @DeleteMapping(
+            path = "/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @PreAuthorize(value = "hasAuthority('DELETE_ADMIN')")
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
+        return ResponseEntity.ok().body(historyService.delete(id));
     }
 }

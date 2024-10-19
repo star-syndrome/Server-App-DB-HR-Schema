@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.metrodataacademy.TugasSpringBoot.models.entities.Location;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 @Builder
@@ -16,11 +16,16 @@ import javax.validation.constraints.NotNull;
 public class CreateDepartmentRequest {
 
     @NotNull
+    @Size(max = 4)
     private Integer id;
 
     @NotBlank
+    @Size(max = 30)
     private String name;
 
+    @NotNull
     private Integer location_id;
+
+    @NotNull
     private Integer manager_id;
 }

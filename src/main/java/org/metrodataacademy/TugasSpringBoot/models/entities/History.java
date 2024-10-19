@@ -21,12 +21,12 @@ public class History {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(name = "start_date")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date startDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(name = "end_date")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date endDate;
 
     @ManyToOne

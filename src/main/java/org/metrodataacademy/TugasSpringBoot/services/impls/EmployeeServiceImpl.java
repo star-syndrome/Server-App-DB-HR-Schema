@@ -57,7 +57,7 @@ public class EmployeeServiceImpl implements
 
     @Override
     public EmpResponse create(CreateEmployeeRequest req) {
-        log.info("Trying to add a new department");
+        log.info("Trying to add a new employee");
 
         if (employeeRepository.existsByEmail(req.getEmail())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists!");

@@ -34,7 +34,7 @@ public class LocationControllerImpl implements
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAnyAuthority('READ_ADMIN')")
+    @PreAuthorize(value = "hasAuthority('READ_ADMIN')")
     public ResponseEntity<Object> getById(@PathVariable Integer id) {
         return ResponseEntity.ok().body(locationService.getById(id));
     }
@@ -44,7 +44,7 @@ public class LocationControllerImpl implements
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAnyAuthority('CREATE_ADMIN')")
+    @PreAuthorize(value = "hasAuthority('CREATE_ADMIN')")
     public ResponseEntity<Object> create(@Validated @RequestBody CreateLocationRequest request) {
         return ResponseEntity.ok().body(locationService.create(request));
     }
@@ -55,7 +55,7 @@ public class LocationControllerImpl implements
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAnyAuthority('UPDATE_ADMIN')")
+    @PreAuthorize(value = "hasAuthority('UPDATE_ADMIN')")
     public ResponseEntity<Object> update(@PathVariable Integer id,
                                          @Validated @RequestBody UpdateLocationRequest request) {
         return ResponseEntity.ok().body(locationService.update(id, request));
@@ -66,8 +66,8 @@ public class LocationControllerImpl implements
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAnyAuthority('DELETE_ADMIN')")
-    public ResponseEntity<Object> delete(@PathVariable Integer id) {;
+    @PreAuthorize(value = "hasAuthority('DELETE_ADMIN')")
+    public ResponseEntity<Object> delete(@PathVariable Integer id) {
         return ResponseEntity.ok().body(locationService.delete(id));
     }
 

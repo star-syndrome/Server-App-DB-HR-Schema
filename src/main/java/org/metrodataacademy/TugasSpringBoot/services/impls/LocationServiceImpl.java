@@ -33,7 +33,7 @@ public class LocationServiceImpl implements
     @Override
     @Transactional(readOnly = true)
     public List<LocationResponse> getAll() {
-        log.info("Successfully getting all countries!");
+        log.info("Successfully getting all locations!");
         return locationRepository.findAll().stream()
                 .map(this::toLocationResponse)
                 .collect(Collectors.toList());
@@ -42,7 +42,7 @@ public class LocationServiceImpl implements
     @Override
     @Transactional(readOnly = true)
     public LocationResponse getById(Integer id) {
-        log.info("Getting country data from country id {}", id);
+        log.info("Getting location data from location id {}", id);
         return locationRepository.findById(id)
                 .map(this::toLocationResponse)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Location not found!"));
@@ -52,10 +52,15 @@ public class LocationServiceImpl implements
     public LocationResponse create(CreateLocationRequest req) {
         log.info("Trying to add a new location");
 
-        Country country = countryRepository.findById(req.getCountry_id())
+        if (locationRepository.existsById(req.getId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Location ID already exists!");
+        }
+
+        Country country = countryRepository.findById(req.getCountry())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found!"));
 
         Location location = Location.builder()
+                .id(req.getId())
                 .city(req.getCity())
                 .streetAddress(req.getStreetAddress())
                 .stateProvince(req.getStateProvince())
@@ -75,7 +80,7 @@ public class LocationServiceImpl implements
         Location location = locationRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Location not found!"));
 
-        Country country = countryRepository.findById(req.getCountry_id())
+        Country country = countryRepository.findById(req.getCountry())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found!"));
 
         location.setCity(req.getCity());

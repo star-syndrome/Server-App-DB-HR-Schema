@@ -1,6 +1,5 @@
 package org.metrodataacademy.TugasSpringBoot.models.dtos.requests;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +9,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
 
 @Data
 @Builder
@@ -18,17 +16,23 @@ import java.util.Date;
 @AllArgsConstructor
 public class UpdateEmployeeRequest {
 
+    @Size(max = 20)
     private String firstName;
 
     @NotBlank
+    @Size(max = 25)
     private String lastName;
 
     @Email
+    @Size(max = 25)
     private String email;
 
+    @Size(max = 20)
     private String phoneNumber;
 
+    @Size(max = 6)
     private Integer salary;
+
     private Float commissionPct;
 
     @NotNull

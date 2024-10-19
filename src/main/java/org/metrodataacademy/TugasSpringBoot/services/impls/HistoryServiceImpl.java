@@ -71,6 +71,17 @@ public class HistoryServiceImpl {
         return toHistoryResponse(history);
     }
 
+    public HistoryResponse delete(Long id) {
+        log.info("Trying to delete history with id: {}", id);
+        History history = historyRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "History not found!"));
+
+        historyRepository.delete(history);
+        log.info("Deleting history with id: {} was successful!", id);
+
+        return toHistoryResponse(history);
+    }
+
     public HistoryResponse toHistoryResponse(History history) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         return HistoryResponse.builder()

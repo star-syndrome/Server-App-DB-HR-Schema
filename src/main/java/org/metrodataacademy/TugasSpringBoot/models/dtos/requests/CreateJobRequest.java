@@ -18,7 +18,13 @@ public class CreateJobRequest {
     @Size(max = 10)
     private String id;
 
+    @NotBlank
+    @Size(max = 35)
     private String title;
+
+    @Size(max = 10)
     private Integer minSalary;
+
+    @Size(max = 10)
     private Integer maxSalary;
 }

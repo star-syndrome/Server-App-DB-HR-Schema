@@ -30,7 +30,7 @@ public class JobController {
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAnyAuthority('READ_ADMIN')")
+    @PreAuthorize(value = "hasAuthority('READ_ADMIN')")
     public ResponseEntity<Object> getById(@PathVariable String id) {
         return ResponseEntity.ok().body(jobService.getById(id));
     }
@@ -39,7 +39,7 @@ public class JobController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAnyAuthority('CREATE_ADMIN')")
+    @PreAuthorize(value = "hasAuthority('CREATE_ADMIN')")
     public ResponseEntity<Object> create(@Validated @RequestBody CreateJobRequest request) {
         return ResponseEntity.ok().body(jobService.create(request));
     }
@@ -49,7 +49,7 @@ public class JobController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAnyAuthority('UPDATE_ADMIN')")
+    @PreAuthorize(value = "hasAuthority('UPDATE_ADMIN')")
     public ResponseEntity<Object> update(@PathVariable String id,
                                          @Validated @RequestBody UpdateJobRequest request) {
         return ResponseEntity.ok().body(jobService.update(id, request));
@@ -59,8 +59,8 @@ public class JobController {
             path = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    @PreAuthorize(value = "hasAnyAuthority('DELETE_ADMIN')")
-    public ResponseEntity<Object> delete(@PathVariable String id) {;
+    @PreAuthorize(value = "hasAuthority('DELETE_ADMIN')")
+    public ResponseEntity<Object> delete(@PathVariable String id) {
         return ResponseEntity.ok().body(jobService.delete(id));
     }
 }
