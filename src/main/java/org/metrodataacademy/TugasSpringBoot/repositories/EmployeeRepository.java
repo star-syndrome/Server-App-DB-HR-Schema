@@ -17,4 +17,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     Boolean countByEmailForUpdate(String email, Integer id);
 
     Optional<Employee> findByUserUsername(String username);
+
+    @Query("SELECT DISTINCT e FROM Employee e WHERE e.id IN " +
+            "(SELECT DISTINCT te.manager FROM Employee te WHERE te.manager IS NOT NULL)")
+    List<Employee> findAllManager();
 }

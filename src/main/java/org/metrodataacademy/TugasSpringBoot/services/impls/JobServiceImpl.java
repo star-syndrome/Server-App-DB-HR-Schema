@@ -32,7 +32,7 @@ public class JobServiceImpl {
     }
 
     @Transactional(readOnly = true)
-    public JobResponse getById(String id) {
+    public JobResponse getById(Integer id) {
         log.info("Getting job data from job id {}", id);
         return jobRepository.findById(id)
                 .map(this::toJobResponse)
@@ -42,8 +42,13 @@ public class JobServiceImpl {
     public JobResponse create(CreateJobRequest req) {
         log.info("Trying to add a new job");
 
+        if (jobRepository.existsById(req.getId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Job ID already exists!");
+        }
+
         Job job = Job.builder()
                 .id(req.getId())
+                .code(req.getCode())
                 .title(req.getTitle())
                 .minSalary(req.getMinSalary())
                 .maxSalary(req.getMaxSalary())
@@ -54,12 +59,17 @@ public class JobServiceImpl {
         return toJobResponse(job);
     }
 
-    public JobResponse update(String id, UpdateJobRequest req) {
+    public JobResponse update(Integer id, UpdateJobRequest req) {
         log.info("Trying to update job data with id: {}", id);
 
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found!"));
 
+        if (jobRepository.countByCodeForUpdate(req.getCode(), id)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Code already exists!");
+        }
+
+        job.setCode(req.getCode());
         job.setTitle(req.getTitle());
         job.setMinSalary(req.getMinSalary());
         job.setMaxSalary(req.getMaxSalary());
@@ -69,7 +79,7 @@ public class JobServiceImpl {
         return toJobResponse(job);
     }
 
-    public JobResponse delete(String id) {
+    public JobResponse delete(Integer id) {
         log.info("Trying to delete job with id: {}", id);
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found!"));
@@ -83,6 +93,7 @@ public class JobServiceImpl {
     public JobResponse toJobResponse(Job job) {
         return JobResponse.builder()
                 .id(job.getId())
+                .code(job.getCode())
                 .title(job.getTitle())
                 .minSalary(job.getMinSalary())
                 .maxSalary(job.getMaxSalary())

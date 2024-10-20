@@ -19,7 +19,7 @@ import java.util.List;
 public class Employee {
 
     @Id
-    @Column(name = "id", length = 6)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "first_name", length = 20)

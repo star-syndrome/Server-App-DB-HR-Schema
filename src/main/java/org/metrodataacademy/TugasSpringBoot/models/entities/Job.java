@@ -18,10 +18,13 @@ import java.util.List;
 public class Job {
 
     @Id
-    @Column(name = "id", length = 10)
-    private String id;
+    @Column(name = "id", length = 4)
+    private Integer id;
 
-    @Column(name = "title", length = 35)
+    @Column(name = "code", length = 10, unique = true, nullable = false)
+    private String code;
+
+    @Column(name = "title", length = 35, nullable = false)
     private String title;
 
     @Column(name = "min_salary")

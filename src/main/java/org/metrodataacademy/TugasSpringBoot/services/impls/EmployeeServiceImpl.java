@@ -46,10 +46,18 @@ public class EmployeeServiceImpl implements
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<EmpResponse> getAllManager() {
+        log.info("Successfully getting all managers!");
+        return employeeRepository.findAllManager().stream()
+                .map(this::toEmployeeResponse)
+                .collect(Collectors.toList());
+    }
+
     @Override
     @Transactional(readOnly = true)
     public EmpResponse getById(Integer id) {
-        log.info("Getting employee data from employee id {}", id);
+        log.info("Getting manager data from employee id {}", id);
         return employeeRepository.findById(id)
                 .map(this::toEmployeeResponse)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found!"));
@@ -63,17 +71,16 @@ public class EmployeeServiceImpl implements
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists!");
         }
 
-        Employee manager = employeeRepository.findById(req.getManager_id())
+        Employee manager = employeeRepository.findById(req.getManager())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Manager not found!"));
 
-        Job job = jobRepository.findById(req.getJob_id())
+        Job job = jobRepository.findById(req.getJob())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found!"));
 
-        Department department = departmentRepository.findById(req.getDepartment_id())
+        Department department = departmentRepository.findById(req.getDepartment())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found!"));
 
         Employee employee = Employee.builder()
-                .id(req.getId())
                 .firstName(req.getFirstName())
                 .lastName(req.getLastName())
                 .email(req.getEmail())
@@ -88,13 +95,14 @@ public class EmployeeServiceImpl implements
         employeeRepository.save(employee);
         log.info("Adding new employee {} successful!", employee.getFirstName());
 
-        return toEmployeeResponse(employee);
+        return toEmployeeResponse(manager);
 
     }
 
     @Override
     public EmpResponse update(Integer id, UpdateEmployeeRequest req) {
         log.info("Trying to update employee data with id: {}", id);
+
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found!"));
 
@@ -102,13 +110,13 @@ public class EmployeeServiceImpl implements
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists!");
         }
 
-        Employee manager = employeeRepository.findById(req.getManager_id())
+        Employee manager = employeeRepository.findById(req.getManager())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Manager not found!"));
 
-        Job job = jobRepository.findById(req.getJob_id())
+        Job job = jobRepository.findById(req.getJob())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Job not found!"));
 
-        Department department = departmentRepository.findById(req.getDepartment_id())
+        Department department = departmentRepository.findById(req.getDepartment())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found!"));
 
         employee.setFirstName(req.getFirstName());

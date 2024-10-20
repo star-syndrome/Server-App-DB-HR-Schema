@@ -29,6 +29,15 @@ public class EmployeeControllerImpl implements
         return ResponseEntity.ok().body(employeeService.getAll());
     }
 
+    @GetMapping(
+            path = "/manager",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @PreAuthorize(value = "hasAuthority('READ_ADMIN')")
+    public ResponseEntity<Object> getAllManager() {
+        return ResponseEntity.ok().body(employeeService.getAllManager());
+    }
+
     @Override
     @GetMapping(
             path = "/{id}",

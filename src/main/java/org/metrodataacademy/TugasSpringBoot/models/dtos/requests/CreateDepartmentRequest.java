@@ -16,7 +16,6 @@ import javax.validation.constraints.Size;
 public class CreateDepartmentRequest {
 
     @NotNull
-    @Size(max = 4)
     private Integer id;
 
     @NotBlank

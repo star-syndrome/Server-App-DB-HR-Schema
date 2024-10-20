@@ -39,6 +39,7 @@ public class HistoryServiceImpl {
     @Autowired
     private JobRepository jobRepository;
 
+    @Transactional(readOnly = true)
     public List<HistoryResponse> getAll() {
         log.info("Successfully getting all histories!");
         return historyRepository.findAll().stream()

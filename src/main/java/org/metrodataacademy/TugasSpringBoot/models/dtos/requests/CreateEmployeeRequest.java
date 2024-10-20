@@ -16,10 +16,6 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class CreateEmployeeRequest {
 
-    @NotNull
-    @Size(max = 6)
-    private Integer id;
-
     @Size(max = 20)
     private String firstName;
 
@@ -34,17 +30,15 @@ public class CreateEmployeeRequest {
     @Size(max = 20)
     private String phoneNumber;
 
-    @Size(max = 8)
     private Integer salary;
-
     private Float commissionPct;
 
     @NotNull
-    private Integer manager_id;
-
-    @NotBlank
-    private String job_id;
+    private Integer manager;
 
     @NotNull
-    private Integer department_id;
+    private Integer job;
+
+    @NotNull
+    private Integer department;
 }

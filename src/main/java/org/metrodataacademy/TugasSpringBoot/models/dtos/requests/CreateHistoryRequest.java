@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -20,6 +19,6 @@ public class CreateHistoryRequest {
     @NotNull
     private Integer employee;
 
-    @NotBlank
-    private String job;
+    @NotNull
+    private Integer job;
 }

@@ -31,7 +31,7 @@ public class JobController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @PreAuthorize(value = "hasAuthority('READ_ADMIN')")
-    public ResponseEntity<Object> getById(@PathVariable String id) {
+    public ResponseEntity<Object> getById(@PathVariable Integer id) {
         return ResponseEntity.ok().body(jobService.getById(id));
     }
 
@@ -50,7 +50,7 @@ public class JobController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @PreAuthorize(value = "hasAuthority('UPDATE_ADMIN')")
-    public ResponseEntity<Object> update(@PathVariable String id,
+    public ResponseEntity<Object> update(@PathVariable Integer id,
                                          @Validated @RequestBody UpdateJobRequest request) {
         return ResponseEntity.ok().body(jobService.update(id, request));
     }
@@ -60,7 +60,7 @@ public class JobController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @PreAuthorize(value = "hasAuthority('DELETE_ADMIN')")
-    public ResponseEntity<Object> delete(@PathVariable String id) {
+    public ResponseEntity<Object> delete(@PathVariable Integer id) {
         return ResponseEntity.ok().body(jobService.delete(id));
     }
 }

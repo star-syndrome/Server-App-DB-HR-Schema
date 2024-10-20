@@ -116,8 +116,8 @@ public class DepartmentServiceImpl implements
         return DepartmentResponse.builder()
                 .id(department.getId())
                 .name(department.getName())
-                .location(department.getLocation().getCity())
-                .manager(department.getManager().getFirstName())
+                .location(department.getLocation().getStreetAddress() + ", " + department.getLocation().getCity())
+                .manager(department.getManager().getFirstName() + " " + department.getManager().getLastName())
                 .build();
     }
 }

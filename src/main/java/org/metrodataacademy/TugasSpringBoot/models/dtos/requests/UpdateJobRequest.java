@@ -15,12 +15,13 @@ import javax.validation.constraints.Size;
 public class UpdateJobRequest {
 
     @NotBlank
+    @Size(max = 10)
+    private String code;
+
+    @NotBlank
     @Size(max = 35)
     private String title;
 
-    @Size(max = 10)
     private Integer minSalary;
-
-    @Size(max = 10)
     private Integer maxSalary;
 }
